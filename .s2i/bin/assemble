@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+echo "YOYOYOOYOYOYOYOYOOOO 1111 ++++++++++++++++++++++++++"
+
+/usr/local/s2i/assemble
+
+echo "YOYOYOOYOYOYOYOYOOOO 22222 ++++++++++++++++++++++++++"

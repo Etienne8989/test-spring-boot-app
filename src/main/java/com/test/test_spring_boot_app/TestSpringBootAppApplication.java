@@ -18,6 +18,7 @@ public class TestSpringBootAppApplication {
 	@Scheduled(fixedRate = 3000L)
 	public void testSchedule () {
 		log.info("test123");
+		log.info("test3211111");
 	}
 
 }

@@ -19,6 +19,7 @@ public class TestSpringBootAppApplication {
 	public void testSchedule () {
 		log.info("test123");
 		log.info("test3211111222");
+		log.info("test3211111222");
 	}
 
 }

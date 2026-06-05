@@ -1,0 +1,119 @@
+warning: Cannot check if git requires authentication.
+apiVersion: v1
+items:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    labels:
+      app: java-app2
+      app.kubernetes.io/component: java-app2
+      app.kubernetes.io/instance: java-app2
+    name: java-app2
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: ""
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    labels:
+      app: java-app2
+      app.kubernetes.io/component: java-app2
+      app.kubernetes.io/instance: java-app2
+    name: java-app2
+  spec:
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: java-app2:latest
+    postCommit: {}
+    resources: {}
+    source:
+      git:
+        uri: https://github.com/Etienne8989/test-spring-boot-app.git
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: java:openjdk-17-ubi8
+          namespace: openshift
+      type: Source
+    triggers:
+    - github:
+        secret: hYaLKyEi6ZHFW1An4z0k
+      type: GitHub
+    - generic:
+        secret: c9UPbeJuXvRoB7yXyh0T
+      type: Generic
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"java-app2:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"java-app2\")].image"}]'
+      openshift.io/generated-by: OpenShiftNewApp
+    labels:
+      app: java-app2
+      app.kubernetes.io/component: java-app2
+      app.kubernetes.io/instance: java-app2
+    name: java-app2
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        deployment: java-app2
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        labels:
+          deployment: java-app2
+      spec:
+        containers:
+        - image: ' '
+          name: java-app2
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          resources: {}
+  status: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    labels:
+      app: java-app2
+      app.kubernetes.io/component: java-app2
+      app.kubernetes.io/instance: java-app2
+    name: java-app2
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    selector:
+      deployment: java-app2
+  status:
+    loadBalancer: {}
+kind: List
+metadata: {}
